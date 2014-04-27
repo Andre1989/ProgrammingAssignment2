@@ -9,9 +9,9 @@
 
 makeCacheMatrix <- function(x = matrix()) {
         inv <- NULL          ## At the beggining, we have no inverse 
-        set <- function(y) {          ## Sets a new matrix and deletes its inverse
-                x <<- y               
-                inv <<- NULL
+        set <- function(y) {          ## Sets a new original matrix and deletes old inverses
+                x <<- y               ## Since the inverse was deleted, this assures no inverses
+                inv <<- NULL          ## are cached with non-correponding original matrices
         }
         get <- function() x         ## Returns the original matrix
         setInv <- function(inverse) inv <<- inverse       ## Sets the inverse
@@ -34,7 +34,7 @@ if (!is.null(inv)){          ## If the inverse was taken from the cache, returns
         message("getting cached data")
         return(inv)
 }
-data <- x$get()          ## If there is no matrix in the cache, gets the original matrix
+data <- x$get()          ## If there is no inverse in the cache, gets the original matrix
 inv <- solve(data,...)   ## computes its inverse
 x$setInv(inv)            ## and stores it in the cache
 inv
